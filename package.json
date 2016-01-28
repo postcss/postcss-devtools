@@ -1,6 +1,6 @@
 {
   "name": "postcss-devtools",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Log execution time for each plugin in a PostCSS instance.",
   "main": "dist/index.js",
   "scripts": {
