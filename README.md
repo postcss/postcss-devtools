@@ -42,14 +42,14 @@ postcss([devtools(), autoprefixer()]).process(css).then(function (result) {
 
 ##### precise
 
-Type: `boolean`
+Type: `boolean`  
 Default: `false`
 
 This adds extra precision to the times that are reported.
 
 ##### silent
 
-Type: `boolean`
+Type: `boolean`  
 Default: `false`
 
 Set this to `true` to use your own logger for the output of this module.
