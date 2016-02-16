@@ -14,7 +14,7 @@ let backgroundify = postcss.plugin('backgroundify', () => {
 let redify = postcss.plugin('redify', () => {
     return css => {
         return new Promise(resolve => {
-            setTimeout(function () {
+            setTimeout(() => {
                 css.walkDecls(decl => decl.value = 'red');
                 return resolve();
             }, 50);

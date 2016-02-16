@@ -32,7 +32,8 @@
     "babel-preset-stage-0": "^6.3.13",
     "coveralls": "^2.11.6",
     "del-cli": "^0.2.0",
-    "eslint": "^1.10.3",
+    "eslint": "^2.1.0",
+    "eslint-config-cssnano": "^2.0.0",
     "nyc": "^6.0.0"
   },
   "homepage": "https://github.com/postcss/postcss-devtools",
@@ -53,5 +54,8 @@
   },
   "ava": {
     "require": "babel-core/register"
+  },
+  "eslintConfig": {
+    "extends": "cssnano"
   }
 }
