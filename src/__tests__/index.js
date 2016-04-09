@@ -24,7 +24,7 @@ let redify = postcss.plugin('redify', () => {
 
 ava('should not print anything if no plugins', t => {
     return postcss([plugin()]).process(fixture).then(result => {
-        t.same(result.messages.length, 0);
+        t.deepEqual(result.messages.length, 0);
     });
 });
 
@@ -35,7 +35,7 @@ ava('should work with sync plugins', t => {
     ];
     
     return postcss(processors).process(fixture).then(result => {
-        t.same(result.messages.length, 1);
+        t.deepEqual(result.messages.length, 1);
     });
 });
 
@@ -46,7 +46,7 @@ ava('should work with async plugins', t => {
     ];
     
     return postcss(processors).process(fixture).then(result => {
-        t.same(result.messages.length, 1);
+        t.deepEqual(result.messages.length, 1);
     });
 });
 
@@ -66,7 +66,7 @@ ava('should print different colours for the slower plugins', t => {
     ];
     
     return postcss(processors).process(fixture).then(result => {
-        t.same(result.messages.length, 10);
+        t.deepEqual(result.messages.length, 10);
     });
 });
 
@@ -77,11 +77,11 @@ ava('should work with filenames', t => {
     ];
     
     return postcss(processors).process(fixture, {from: 'app.css'}).then(result => {
-        t.same(result.messages.length, 1);
+        t.deepEqual(result.messages.length, 1);
     });
 });
 
 ava('should use the postcss plugin api', t => {
-    t.ok(plugin().postcssVersion, 'should be able to access version');
-    t.same(plugin().postcssPlugin, name, 'should be able to access name');
+    t.truthy(plugin().postcssVersion, 'should be able to access version');
+    t.deepEqual(plugin().postcssPlugin, name, 'should be able to access name');
 });
