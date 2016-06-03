@@ -33,7 +33,7 @@ ava('should work with sync plugins', t => {
         plugin({silent: true}),
         backgroundify
     ];
-    
+
     return postcss(processors).process(fixture).then(result => {
         t.deepEqual(result.messages.length, 1);
     });
@@ -44,9 +44,42 @@ ava('should work with async plugins', t => {
         plugin({silent: true}),
         redify()
     ];
-    
+
     return postcss(processors).process(fixture).then(result => {
         t.deepEqual(result.messages.length, 1);
+    });
+});
+
+ava('should have printSummary method', t => {
+    const devTool = plugin({silent: true});
+    let processors = [
+        devTool,
+        redify(),
+        backgroundify()
+    ];
+
+    return postcss(processors).process(fixture).then(() => {
+        t.is(typeof devTool.printSummary, 'function');
+        devTool.printSummary();
+    });
+});
+
+ava('should have printSummary method with multiple css', t => {
+    const devTool = plugin({silent: true});
+    let processors = [
+        devTool,
+        redify(),
+        backgroundify()
+    ];
+
+    // emulate a Runners callback function
+    return Promise.all([
+        postcss(processors).process(fixture),
+        postcss(processors).process(fixture)
+    ])
+    .then(() => {
+        t.is(typeof devTool.printSummary, 'function');
+        devTool.printSummary();
     });
 });
 
@@ -64,7 +97,7 @@ ava('should print different colours for the slower plugins', t => {
         backgroundify(),
         backgroundify()
     ];
-    
+
     return postcss(processors).process(fixture).then(result => {
         t.deepEqual(result.messages.length, 10);
     });
@@ -75,7 +108,7 @@ ava('should work with filenames', t => {
         plugin(),
         backgroundify
     ];
-    
+
     return postcss(processors).process(fixture, {from: 'app.css'}).then(result => {
         t.deepEqual(result.messages.length, 1);
     });

@@ -9,12 +9,11 @@ let logFrom = fromValue => {
     return relative(process.cwd(), fromValue);
 };
 
-export default function formatter (input) {
-    const messages = input.messages.sort((a, b) => b.time.s - a.time.s);
-    const ten = Math.floor(messages.length * 0.10);
-    const twenty = Math.floor(messages.length * 0.20);
-    
-    const output = table(messages.map((message, index) => {
+function createResultsTable (messages) {
+    const sorted = messages.sort((a, b) => b.time.s - a.time.s);
+    const ten = Math.floor(sorted.length * 0.10);
+    const twenty = Math.floor(sorted.length * 0.20);
+    const output = table(sorted.map((message, index) => {
         if (index < ten) {
             return [message.plugin, red(message.formatted)];
         }
@@ -23,6 +22,17 @@ export default function formatter (input) {
         }
         return [message.plugin, green(message.formatted)];
     }));
-    
+
+    return output;
+}
+
+export default function formatter (input) {
+    const output = createResultsTable(input.messages);
     return `${underline(logFrom(input.source))}\n${output}`;
+};
+
+export function formatSummaryResults (resultsMap) {
+    const results = Object.keys(resultsMap).map(k => ({plugin: k, ...resultsMap[k]}));
+    const output = createResultsTable(results);
+    return `${underline(`Summary`)}\n${output}`;
 };

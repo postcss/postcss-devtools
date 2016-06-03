@@ -33,7 +33,6 @@ postcss([devtools(), autoprefixer()]).process(css).then(function (result) {
 //=> Done.
 ```
 
-
 ## API
 
 ### devtools([options])
@@ -53,6 +52,31 @@ Type: `boolean`
 Default: `false`
 
 Set this to `true` to use your own logger for the output of this module.
+
+### devtools.printSummary()
+
+Print a summary spanning across all files. Note that you should set `opts.silent` to `true` to avoid outputting more than is necessary when calling this function.
+
+```js
+var postcss = require('postcss');
+var devtools = require('postcss-devtools')({silent: true}); // disable summary for each css file
+var autoprefixer = require('autoprefixer');
+
+var cssOne = 'h1 { color: red }';
+var cssTwo = 'h1 { color: blue }';
+// view a summary for all plugins across all css files?
+Promise.all(
+  postcss([devtools, autoprefixer()]).process(cssOne),
+  postcss([devtools, autoprefixer()]).process(cssTwo)
+).then(() => {
+  console.log('Done.');
+  devtools.printSummary();
+});
+//=> Done.
+//=> Summary
+//=> autoprefixer  73 ms
+```
+
 
 
 ## Usage
