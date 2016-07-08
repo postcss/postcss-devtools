@@ -1,5 +1,5 @@
-import {red, yellow, green, underline} from 'chalk';
 import {relative} from 'path';
+import {red, yellow, green, underline} from 'chalk';
 import table from 'text-table';
 
 let logFrom = fromValue => {

@@ -2,19 +2,19 @@ import postcss from 'postcss';
 import pretty from 'pretty-hrtime';
 import reporter from 'postcss-reporter';
 import convert from 'convert-hrtime';
-import formatter, {formatSummaryResults} from './lib/formatter';
 import isPromise from 'is-promise';
 import {hrtimeAdd} from 'jsprim';
+import formatter, {formatSummaryResults} from './lib/formatter';
 
 const updateSummary = (summary, {plugin, rawTime}, {precise}) => {
     const summaryForPlugin = summary[plugin] || {rawTime: [0, 0]};
     const newRawTime = hrtimeAdd(summaryForPlugin.rawTime, rawTime);
-    const formatted = pretty(newRawTime, {precise: precise});
-    const text = 'Completed in ' + pretty(newRawTime, {precise: precise});
+    const formatted = pretty(newRawTime, {precise});
+    const text = 'Completed in ' + pretty(newRawTime, {precise});
     const time = convert(newRawTime);
     return {
         ...summary,
-        [plugin]: {rawTime: newRawTime, formatted, text, time}
+        [plugin]: {rawTime: newRawTime, formatted, text, time},
     };
 };
 
@@ -22,7 +22,7 @@ export default postcss.plugin('postcss-devtools', (opts) => {
     const {precise, silent} = {
         precise: false,
         silent: false,
-        ...opts
+        ...opts,
     };
 
     let summaryResults = {};
@@ -45,7 +45,7 @@ export default postcss.plugin('postcss-devtools', (opts) => {
                                 formatted: pretty(completed, {precise}),
                                 text: 'Completed in ' + pretty(completed, {precise}),
                                 time: convert(completed),
-                                rawTime: completed
+                                rawTime: completed,
                             };
 
                             res.messages.push(message);
@@ -59,7 +59,7 @@ export default postcss.plugin('postcss-devtools', (opts) => {
                             formatted: pretty(completed, {precise}),
                             text: 'Completed in ' + pretty(completed, {precise}),
                             time: convert(completed),
-                            rawTime: completed
+                            rawTime: completed,
                         };
 
                         res.messages.push(message);

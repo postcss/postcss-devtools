@@ -7,7 +7,7 @@ const fixture = 'h1{color:blue}';
 
 let backgroundify = postcss.plugin('backgroundify', () => {
     return css => {
-        css.walkDecls(decl => decl.prop = 'background');
+        css.walkDecls(decl => (decl.prop = 'background'));
     };
 });
 
@@ -15,7 +15,7 @@ let redify = postcss.plugin('redify', () => {
     return css => {
         return new Promise(resolve => {
             setTimeout(() => {
-                css.walkDecls(decl => decl.value = 'red');
+                css.walkDecls(decl => (decl.value = 'red'));
                 return resolve();
             }, 50);
         });
@@ -31,7 +31,7 @@ ava('should not print anything if no plugins', t => {
 ava('should work with sync plugins', t => {
     let processors = [
         plugin({silent: true}),
-        backgroundify
+        backgroundify,
     ];
 
     return postcss(processors).process(fixture).then(result => {
@@ -42,7 +42,7 @@ ava('should work with sync plugins', t => {
 ava('should work with async plugins', t => {
     let processors = [
         plugin({silent: true}),
-        redify()
+        redify(),
     ];
 
     return postcss(processors).process(fixture).then(result => {
@@ -55,7 +55,7 @@ ava('should have printSummary method', t => {
     let processors = [
         devTool,
         redify(),
-        backgroundify()
+        backgroundify(),
     ];
 
     return postcss(processors).process(fixture).then(() => {
@@ -69,13 +69,13 @@ ava('should have printSummary method with multiple css', t => {
     let processors = [
         devTool,
         redify(),
-        backgroundify()
+        backgroundify(),
     ];
 
     // emulate a Runners callback function
     return Promise.all([
         postcss(processors).process(fixture),
-        postcss(processors).process(fixture)
+        postcss(processors).process(fixture),
     ])
     .then(() => {
         t.is(typeof devTool.printSummary, 'function');
@@ -95,7 +95,7 @@ ava('should print different colours for the slower plugins', t => {
         backgroundify(),
         backgroundify(),
         backgroundify(),
-        backgroundify()
+        backgroundify(),
     ];
 
     return postcss(processors).process(fixture).then(result => {
@@ -106,7 +106,7 @@ ava('should print different colours for the slower plugins', t => {
 ava('should work with filenames', t => {
     let processors = [
         plugin(),
-        backgroundify
+        backgroundify,
     ];
 
     return postcss(processors).process(fixture, {from: 'app.css'}).then(result => {
