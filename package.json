@@ -34,7 +34,7 @@
     "babel-register": "^6.9.0",
     "coveralls": "^2.11.6",
     "del-cli": "^0.2.0",
-    "eslint": "^3.0.0",
+    "eslint": "^3.9.0",
     "eslint-config-cssnano": "^3.0.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-import": "^1.10.2",
