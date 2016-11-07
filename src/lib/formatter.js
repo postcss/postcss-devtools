@@ -27,7 +27,7 @@ function createResultsTable (messages) {
 }
 
 export default function formatter (input) {
-    const output = createResultsTable(input.messages);
+    const output = createResultsTable(input.messages.filter(m => m._devtools));
     return `${underline(logFrom(input.source))}\n${output}`;
 };
 

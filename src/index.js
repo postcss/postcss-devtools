@@ -26,6 +26,7 @@ function getMessage (plugin, completed, precise) {
         text: `Completed in ${formatted}`,
         time: convert(completed),
         rawTime: completed,
+        _devtools: true,
     };
 }
 

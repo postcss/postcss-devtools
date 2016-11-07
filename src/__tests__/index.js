@@ -114,6 +114,17 @@ ava('should work with filenames', t => {
     });
 });
 
+ava('should ignore unrelated messages', t => {
+    let processors = [
+        plugin(),
+        postcss.plugin('unrelated', () => (css, result) => result.warn('Unrelated message!', {node: result.root})),
+    ];
+
+    return postcss(processors).process(fixture).then(result => {
+        t.deepEqual(result.messages.length, 2);
+    });
+});
+
 ava('should use the postcss plugin api', t => {
     t.truthy(plugin().postcssVersion, 'should be able to access version');
     t.deepEqual(plugin().postcssPlugin, name, 'should be able to access name');
