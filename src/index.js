@@ -18,6 +18,17 @@ const updateSummary = (summary, {plugin, rawTime}, {precise}) => {
     };
 };
 
+function getMessage (plugin, completed, precise) {
+    const formatted = pretty(completed, {precise});
+    return {
+        plugin,
+        formatted,
+        text: `Completed in ${formatted}`,
+        time: convert(completed),
+        rawTime: completed,
+    };
+}
+
 export default postcss.plugin('postcss-devtools', (opts) => {
     const {precise, silent} = {
         precise: false,
@@ -40,28 +51,14 @@ export default postcss.plugin('postcss-devtools', (opts) => {
                     if (isPromise(p)) {
                         p.then(() => {
                             completed = process.hrtime(timer);
-                            const message = {
-                                plugin: proc.postcssPlugin,
-                                formatted: pretty(completed, {precise}),
-                                text: 'Completed in ' + pretty(completed, {precise}),
-                                time: convert(completed),
-                                rawTime: completed,
-                            };
-
+                            const message = getMessage(proc.postcssPlugin, completed, precise);
                             res.messages.push(message);
                             summaryResults = updateSummary(summaryResults, message, {precise, silent});
                             resolve();
                         });
                     } else {
                         completed = process.hrtime(timer);
-                        const message = {
-                            plugin: proc.postcssPlugin,
-                            formatted: pretty(completed, {precise}),
-                            text: 'Completed in ' + pretty(completed, {precise}),
-                            time: convert(completed),
-                            rawTime: completed,
-                        };
-
+                        const message = getMessage(proc.postcssPlugin, completed, precise);
                         res.messages.push(message);
                         summaryResults = updateSummary(summaryResults, message, {precise, silent});
                         resolve();
