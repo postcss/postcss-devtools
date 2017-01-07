@@ -69,8 +69,10 @@ var cssOne = 'h1 { color: red }';
 var cssTwo = 'h1 { color: blue }';
 // View a summary for all plugins across all css files
 Promise.all(
-  postcss([devtools, autoprefixer()]).process(cssOne),
-  postcss([devtools, autoprefixer()]).process(cssTwo)
+  [
+    postcss([devtools, autoprefixer()]).process(cssOne),
+    postcss([devtools, autoprefixer()]).process(cssTwo)
+  ]
 ).then(() => {
   console.log('Done.');
   devtools.printSummary();
